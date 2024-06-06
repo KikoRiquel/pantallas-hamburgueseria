@@ -5,7 +5,7 @@ import Producto from "./components/Producto.jsx";
 const App = () => {
   return (
     <>
-      <Home />
+      {/* <Home /> */}
       <Menu />
       <Producto />
     </>

@@ -110,7 +110,7 @@ export default {
         },
         orange: {
           50: "#FCECD2",
-          100: "#FCECD2",
+          100: "#F9E8DE",
           200: "#F9D5A7",
           300: "#EEB379",
           400: "#DE9155",
@@ -127,6 +127,42 @@ export default {
   plugins: [
     nextui({
       addCommonColors: true,
+      themes: {
+        light: {
+          colors: {
+            background: "#f1f1f1", // or DEFAULT
+            foreground: "#2F2F35", // or 50 to 900 DEFAULT
+            focus: "#C86224",
+            primary: {
+              50: "#FCECD2",
+              100: "#FCECD2",
+              200: "#F9D5A7",
+              300: "#EEB379",
+              400: "#DE9155",
+              500: "#C86224",
+              600: "#AC481A",
+              700: "#903212",
+              800: "#741F0B",
+              900: "#601206",
+              foreground: "#f1f1f1",
+              DEFAULT: "#C86224",
+            },
+            default: {
+              50: "#f1f1f1",
+              100: "#D9D9D9",
+              200: "#c1c0c0", // NO SE USA
+              300: "#AAA7A8",
+              400: "#948f8f", // NO SE USA
+              500: "#7D7677",
+              600: "#666061",
+              700: "#504A4C",
+              800: "#3C3739",
+              900: "#2F2F35",
+            },
+            // ... rest of the colors
+          },
+        },
+      },
     }),
   ],
 };

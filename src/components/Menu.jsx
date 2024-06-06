@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Card, CardBody, CardFooter, Image, Button } from "@nextui-org/react";
+import { Card, CardBody, CardFooter, Image, Button, Link } from "@nextui-org/react";
 import axios from "axios";
 
 const Menu = () => {
@@ -29,12 +29,26 @@ const Menu = () => {
 
   return (
     <>
-      <div className="p-6 bg-white text-black">
-        <div className="mb-6">
+      <div className="pl-6 pr-6 pt-11 pb-8">
+        <div className="flex flex-col pb-1 pr-24">
+          <h2 className="font-bold text-3xl">¡Hola <span className="text-orange-500">Kiko</span>!</h2>
+          <h6 className="text-sm font-bold">Tu número de mesa es <span className="text-orange-500">1</span></h6>
+          <p className="text-xs text-default-600">Si número de mesa no es correcto puedes cambiarlo <Link href="#" className="text-xs">aquí</Link> </p>
+        </div>
+        <div className="mb-6 mt-6">
           <h3 className="text-lg font-bold mb-2">Categorias</h3>
           <div className="flex space-x-2 overflow-x-auto scrollbar-hide">
             {categories.map((category, index) => (
-              <Button variant="solid" key={index}>
+              <Button
+                variant="bordered"
+                key={index}
+                className={`font-bold  ${
+                  selectedCategory === category
+                    ? " bg-orange-100 text-primary border-orange-500"
+                    : "bg-white text-black border-black"
+                }`}
+                onClick={(e) => setSelectedCategory(e.target.innerText)}
+              >
                 {category}
               </Button>
             ))}
@@ -72,7 +86,7 @@ const Menu = () => {
                     <p className="text-base text-zinc-600">
                       {item.descripcion}
                     </p>
-                    <Button className="w-full mb-2 bg-orange-500 text-white">
+                    <Button color="primary" className="w-full mb-2">
                       Añadir
                     </Button>
                   </div>
