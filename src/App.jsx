@@ -1,13 +1,17 @@
+import Carrito from "./components/Carrito";
 import Home from "./components/Home";
 import Menu from "./components/Menu";
-import Producto from "./components/Producto.jsx";
+import Pedidos from "./components/Pedidos";
+import Producto from "./components/Producto";
 
 const App = () => {
   return (
     <>
-      {/* <Home /> */}
-      <Menu />
+      <Carrito />
+      <Pedidos />
+      <Home />
       <Producto />
+      <Menu />
     </>
   );
 };
