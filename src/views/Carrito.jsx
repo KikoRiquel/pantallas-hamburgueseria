@@ -1,5 +1,6 @@
 import { Textarea, Button } from "@nextui-org/react";
-import CardPedido from "../components/CardPedido";
+import { CardPedido } from "../components";
+
 
 const Carrito = () => {
   return (

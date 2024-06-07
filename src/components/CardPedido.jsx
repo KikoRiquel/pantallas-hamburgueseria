@@ -1,6 +1,6 @@
 
 import { Divider, Image } from "@nextui-org/react";
-import Counter from "./Counter";
+import {Counter} from "./index";
 
 const CardPedido = () => {
   return (
