@@ -2,6 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+/* @font-face {
+  font-family: 'Rag';
+  font-style: regular;
+  src: url('assets/fonts/RAG-REGULAR.OTF') format('truetype');
+} */
+
+
+
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -13,15 +21,3 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
-}

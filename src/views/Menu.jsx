@@ -59,7 +59,7 @@ const Menu = () => {
           <h3 className="text-xl font-bold mb-2">Productos</h3>
           <div className="flex flex-col gap-5">
             {filteredMenu.map((item, index) => {
-              const imagePath = `public/img/${item.producto_id}.jpg`;
+              const imagePath = `../src/assets/img/${item.producto_id}.jpg`;
               return (
                 <Card
                   shadow="sm"

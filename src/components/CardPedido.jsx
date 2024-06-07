@@ -1,5 +1,6 @@
-import Counter from "./Counter";
+
 import { Divider, Image } from "@nextui-org/react";
+import Counter from "./Counter";
 
 const CardPedido = () => {
   return (
@@ -11,7 +12,7 @@ const CardPedido = () => {
             width={100}
             className="aspect-square object-cover"
             alt="NextUI hero Image"
-            src="..\public\img\1.jpg"
+            src="..\src\assets\img\1.jpg"
           />
         </div>
 
