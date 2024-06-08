@@ -1,43 +1,107 @@
-import { useEffect, useState } from "react";
-import { Card, CardBody, CardFooter, Image, Button, Link } from "@nextui-org/react";
-import axios from "axios";
+/* eslint-disable react/prop-types */
+import { useState } from "react";
+import {
+  Card,
+  CardBody,
+  CardFooter,
+  Image,
+  Button,
+  Link,
+} from "@nextui-org/react";
+import { Link as Linkrrd, useNavigate } from "react-router-dom";
 
-const Menu = () => {
-  const [menu, setMenu] = useState([]);
-  const [showMenu, setShowMenu] = useState(false);
-
-  useEffect(() => {
-    axios
-      .get("http://localhost:5000/carta")
-      .then((response) => {
-        setMenu(response.data);
-        setShowMenu(true); // Mostrar menú después de cargar datos
-      })
-      .catch((error) => {
-        console.error("Error fetching menu data:", error);
-      });
-  }, []);
-
-  console.log(menu);
-
+function Menu({
+  menu,
+  addToOrder,
+  removeFromOrder,
+  order,
+  setOrder,
+  table,
+  userName,
+}) {
+  const navigate = useNavigate();
+  const [productQuantities, setProductQuantities] = useState({});
   const [selectedCategory, setSelectedCategory] = useState("Todos");
+
   const categories = ["Todos", ...new Set(menu.map((item) => item.categoria))];
+
   const filteredMenu =
     selectedCategory === "Todos"
       ? menu
       : menu.filter((item) => item.categoria === selectedCategory);
 
+  const handleAddToOrder = (item) => {
+    const quantity = (productQuantities[item.producto_id] || 0) + 1;
+    const existingItem = order.find(
+      (orderItem) => orderItem.producto_id === item.producto_id
+    );
+    if (existingItem) {
+      setOrder(
+        order.map((orderItem) =>
+          orderItem.producto_id === item.producto_id
+            ? { ...orderItem, cantidad: orderItem.cantidad + 1 }
+            : orderItem
+        )
+      );
+    } else {
+      addToOrder({ ...item, cantidad: 1 });
+    }
+    setProductQuantities((prevState) => ({
+      ...prevState,
+      [item.producto_id]: quantity,
+    }));
+  };
+
+  const handleRemoveFromOrder = (item) => {
+    const quantity = productQuantities[item.producto_id];
+    if (quantity > 1) {
+      setProductQuantities((prevState) => ({
+        ...prevState,
+        [item.producto_id]: prevState[item.producto_id] - 1,
+      }));
+      setOrder(
+        order.map((orderItem) =>
+          orderItem.producto_id === item.producto_id
+            ? { ...orderItem, cantidad: orderItem.cantidad - 1 }
+            : orderItem
+        )
+      );
+    } else {
+      removeFromOrder(item);
+      setProductQuantities((prevState) => {
+        const newState = { ...prevState };
+        delete newState[item.producto_id];
+        return newState;
+      });
+    }
+  };
+
+  if (!table || !userName) {
+    navigate("/");
+    return null;
+  }
+
   return (
     <>
       <div className="pl-6 pr-6 pt-11 pb-8">
         <div className="flex flex-col pb-1 pr-24">
-          <h2 className="font-bold text-3xl">¡Hola <span className="text-orange-500">Kiko</span>!</h2>
-          <h6 className="text-sm font-bold">Tu número de mesa es <span className="text-orange-500">1</span></h6>
-          <p className="text-xs text-default-600">Si número de mesa no es correcto puedes cambiarlo <Link href="#" className="text-xs">aquí</Link> </p>
+          <h2 className="font-bold text-3xl">
+            ¡Hola <span className="text-orange-500">{table} </span>!
+          </h2>
+          <h6 className="text-sm font-bold">
+            Tu número de mesa es{" "}
+            <span className="text-orange-500"> {userName} </span>
+          </h6>
+          <p className="text-xs text-default-600">
+            Si número de mesa no es correcto puedes cambiarlo{" "}
+            <Link href="#" className="text-xs">
+              aquí
+            </Link>{" "}
+          </p>
         </div>
         <div className="mb-6 mt-6">
           <h3 className="text-lg font-bold mb-2">Categorias</h3>
-          
+
           <div className="flex flex-nowrap gap-2 items-center overflow-x-auto scrollbar-hide ">
             {categories.map((category, index) => (
               <Button
@@ -65,7 +129,9 @@ const Menu = () => {
                   shadow="sm"
                   key={index}
                   isPressable
-                  onPress={() => console.log("item pressed")}
+                  onPress={() =>
+                    navigate(`/pedidos/producto/${item.producto_id}`)
+                  }
                 >
                   <CardBody className="overflow-visible p-0">
                     <Image
@@ -87,7 +153,34 @@ const Menu = () => {
                     <p className="text-base text-zinc-600">
                       {item.descripcion}
                     </p>
-                    <Button color="primary" className="w-full mb-2">
+                    {productQuantities[item.producto_id] !== undefined && (
+                      <div className="d-flex align-items-center">
+                        <Button
+                          type="button"
+                          className="btn btn-outline-danger"
+                          size="sm"
+                          onClick={() => handleRemoveFromOrder(item)}
+                        >
+                          -
+                        </Button>
+                        <span className="mx-2">
+                          {productQuantities[item.producto_id]}
+                        </span>
+                        <Button
+                          type="button"
+                          className="btn btn-outline-success"
+                          size="sm"
+                          onClick={() => handleAddToOrder(item)}
+                        >
+                          +
+                        </Button>
+                      </div>
+                    )}
+                    <Button
+                      color="primary"
+                      className="w-full mb-2"
+                      onClick={() => handleAddToOrder(item)}
+                    >
                       Añadir
                     </Button>
                   </div>
@@ -95,10 +188,27 @@ const Menu = () => {
               );
             })}
           </div>
+          {order.length > 0 && (
+            <div className="fixed-bottom p-3 bg-light">
+              <Linkrrd to="/confirmar-pedido" className="btn btn-success">
+                Confirmar Pedido
+              </Linkrrd>
+              <span className="ml-3">
+                Total:{" "}
+                {order
+                  .reduce(
+                    (total, item) => total + item.precio * (item.cantidad || 1),
+                    0
+                  )
+                  .toFixed(2)}
+                €
+              </span>
+            </div>
+          )}
         </div>
       </div>
     </>
   );
-};
+}
 
 export default Menu;
