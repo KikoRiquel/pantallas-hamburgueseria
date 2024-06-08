@@ -6,6 +6,7 @@ import Menu from './views/Menu';
 import Admin from './views/Admin';
 import Producto from './views/Producto';
 import Login from './views/Login';
+import Carrito from './views/Carrito';
 // import Register from './views/register';
 // import ConfirmOrder from './views/confirmorder';
 
@@ -92,7 +93,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home setTable={setTable} setShowMenu={setShowMenu} setUserName={setUserName} />} />
           <Route path="/menu" element={<Menu menu={menu} addToOrder={addToOrder} removeFromOrder={removeFromOrder} order={order} setOrder={setOrder} table={table} userName={userName} />} />
-          {/* <Route path="/confirmar-pedido" element={<ConfirmOrder order={order} setOrder={setOrder} submitOrder={submitOrder} />} /> */}
+          <Route path="/confirmar-pedido" element={<Carrito order={order} setOrder={setOrder} submitOrder={submitOrder} />} />
           <Route path="/admin/pedidos" element={token ? <Admin /> : <Navigate to="/login" />} />
           <Route path="/pedidos/producto/:id" element={<Producto addToOrder={addToOrder} />} />
           <Route path="/login" element={<Login setToken={setToken} />} />
