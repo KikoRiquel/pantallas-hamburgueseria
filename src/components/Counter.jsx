@@ -1,8 +1,8 @@
 import { Button } from "@nextui-org/react";
 import { useState } from "react";
 
-const Counter = () => {
-  const [count, setCounter] = useState(1);
+const Counter = ({cantidad = 1}) => {
+  const [count, setCounter] = useState(cantidad);
 
   const increment = () => {
     if (count < 2) {

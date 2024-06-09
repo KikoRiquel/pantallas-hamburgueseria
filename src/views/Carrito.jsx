@@ -24,39 +24,49 @@ const Carrito = ({ order, setOrder, submitOrder }) => {
     .reduce((total, item) => total + item.precio * item.cantidad, 0)
     .toFixed(2);
 
+  console.log(order); // Debugging to ensure order array is correct
+
   return (
     <>
-    <h1>HOLA</h1>
-      {order.map((item) => {
-        <div className="pl-6 pr-6 pt-11 pb-8 h-dvh flex flex-col justify-between">
-          <div className="flex flex-col gap-6 ">
-            <h1 className="font-bold text-3xl">Tu pedido</h1>
-            <div>
-              <h3 className="font-bold text-xl mb-2">Comida</h3>
-              <CardPedido />
-            </div>
-            <div>
-              <h3 className="font-bold text-xl mb-2">Bebida</h3>
-              <CardPedido />
-            </div>
+      <div className="pl-6 pr-6 pt-11 pb-8 h-dvh h-full flex flex-col justify-between">
+        <h1 className="font-bold text-3xl">Tu pedido</h1>
+        <div className="flex flex-col gap-6 h-full justify-between">
+          <div className="mt-4">
+            <h3 className="font-bold text-xl mb-2">Comida</h3>
+            {order.map((item) => (
+              <div className="mb-2" key={item.producto_id}>
+                <CardPedido
+                  id={item.producto_id}
+                  name={item.nombre}
+                  price={item.precio}
+                  cantidad={item.cantidad}
+                  
+                  className="mb-2"
+                />
+              </div>
+            ))}
           </div>
           <div>
             <Textarea
               label="Observaciones"
               placeholder="¿Hay algo que necesites decirnos sobre tu pedido?"
-              className="w-full "
+              className="w-full"
               classNames={{
                 label: "font-bold text-black",
                 description: "text-zinc-500",
                 inputWrapper: "bg-[#fff]",
               }}
             />
-            <Button color="primary" className="w-full mt-9">
-              Confirmar pedido por 14.70€
+            <Button
+              color="primary"
+              className="w-full mt-9"
+              onClick={submitOrder}
+            >
+              Confirmar pedido por {totalPrice}€
             </Button>
           </div>
-        </div>;
-      })}
+        </div>
+      </div>
     </>
   );
 };
