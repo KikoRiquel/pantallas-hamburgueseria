@@ -29,9 +29,9 @@ export default function Home({ setTable, setShowMenu, setUserName }) {
               type="email"
               variant="underlined"
               label="Tu nombre"
-              id="tableNumber"
-              value={tableInput}
-              onChange={(e) => setTableInput(e.target.value)}
+              id="userName"
+              value={userNameInput}
+              onChange={(e) => setUserNameInput(e.target.value)}
             />
           </div>
           <div>
@@ -40,9 +40,9 @@ export default function Home({ setTable, setShowMenu, setUserName }) {
               type="text"
               variant="underlined"
               label="Nº de mesa"
-              id="userName"
-              value={userNameInput}
-              onChange={(e) => setUserNameInput(e.target.value)}
+              id="tableNumber"
+              value={tableInput}
+              onChange={(e) => setTableInput(e.target.value)}
             ></Input>
           </div>
         </div>

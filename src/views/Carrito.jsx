@@ -24,11 +24,9 @@ const Carrito = ({ order, setOrder, submitOrder }) => {
     .reduce((total, item) => total + item.precio * item.cantidad, 0)
     .toFixed(2);
 
-  console.log(order); // Debugging to ensure order array is correct
-
   return (
     <>
-      <div className="pl-6 pr-6 pt-11 pb-8 h-dvh h-full flex flex-col justify-between">
+      <div className="pl-6 pr-6 pt-11 pb-8 h-full flex flex-col justify-between">
         <h1 className="font-bold text-3xl">Tu pedido</h1>
         <div className="flex flex-col gap-6 h-full justify-between">
           <div className="mt-4">
