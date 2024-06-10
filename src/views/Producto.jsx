@@ -9,6 +9,7 @@ import {
   Button,
 } from "@nextui-org/react";
 import { domMax } from "framer-motion";
+import { ArrowBack } from "../assets/svg/ArrowBack";
 
 import { useState, useEffect } from "react";
 import axios from "axios";
@@ -84,23 +85,26 @@ export default function Producto({ addToOrder }) {
     navigate("/menu");
   };
 
-  const goBack = () => navigate("/menu");
-
   return (
     <>
       <div className="h-dvh flex flex-col justify-between bg-white text-black">
         <Image
-          width={domMax}
+          heigh={400}
           alt={product.nombre}
           src={`../../src/assets/img/${productId}.jpg`}
         />
-        <div className=" p-6 flex flex-col justify-between h-full">
-          <div>
-            <Button onClick={goBack}>BACK</Button>
-            <h2 className="font-bold text-2xl">{product.nombre}</h2>
-          </div>
-          <p>{product.alergenos}</p>
-          <div>
+        <div className=" px-6 pt-3 pb-8 h-full flex flex-col justify-between">
+          <div className="flex flex-col gap-3">
+            <div className="flex flex-row items-center">
+              <Button variant="light" isIconOnly onClick={() => navigate("/menu")}>
+                <ArrowBack />
+              </Button>
+              <h2 className="font-bold text-2xl">{product.nombre}</h2>
+            </div>
+            <div>
+              <h3 className="font-bold text-xl">Alergenos</h3>
+              <p>{product.alergenos}</p>
+            </div>
             <Table aria-label="Example static collection table">
               <TableHeader>
                 <TableColumn className="font-bold text-lg text-black">
@@ -134,7 +138,7 @@ export default function Producto({ addToOrder }) {
           </div>
           <Button
             size="lg"
-            className="w-full mb-2 bg-orange-500 text-white"
+            className="w-full bg-orange-500 text-white"
             onClick={handleAddToOrder}
           >
             Añadir al carrito por 5.50€
