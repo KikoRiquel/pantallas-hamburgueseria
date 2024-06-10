@@ -86,19 +86,36 @@ function Menu({
       <div className="pl-6 pr-6 pt-11 pb-8">
         <div className="flex flex-col pb-1 pr-24">
           <h2 className="font-bold text-3xl">
-            ¡Hola <span className="text-orange-500">{table} </span>!
+            ¡Hola <span className="text-orange-500">{userName} </span>!
           </h2>
           <h6 className="text-sm font-bold">
             Tu número de mesa es{" "}
-            <span className="text-orange-500"> {userName} </span>
+            <span className="text-orange-500"> {table} </span>
           </h6>
           <p className="text-xs text-default-600">
-            Si número de mesa no es correcto puedes cambiarlo{" "}
-            <Link href="#" className="text-xs">
+            Si número de mesa no es correcto puedes cambiarlo
+            <Link href="/" className="text-xs">
               aquí
-            </Link>{" "}
+            </Link>
           </p>
         </div>
+        {order.length > 0 && (
+            <div className="fixed-bottom p-3 bg-light">
+              <Linkrrd to="/confirmar-pedido" className="btn btn-success">
+                Confirmar Pedido
+              </Linkrrd>
+              <span className="ml-3">
+                Total:{" "}
+                {order
+                  .reduce(
+                    (total, item) => total + item.precio * (item.cantidad || 1),
+                    0
+                  )
+                  .toFixed(2)}
+                €
+              </span>
+            </div>
+          )}
         <div className="mb-6 mt-6">
           <h3 className="text-lg font-bold mb-2">Categorias</h3>
 
@@ -188,23 +205,7 @@ function Menu({
               );
             })}
           </div>
-          {order.length > 0 && (
-            <div className="fixed-bottom p-3 bg-light">
-              <Linkrrd to="/confirmar-pedido" className="btn btn-success">
-                Confirmar Pedido
-              </Linkrrd>
-              <span className="ml-3">
-                Total:{" "}
-                {order
-                  .reduce(
-                    (total, item) => total + item.precio * (item.cantidad || 1),
-                    0
-                  )
-                  .toFixed(2)}
-                €
-              </span>
-            </div>
-          )}
+
         </div>
       </div>
     </>

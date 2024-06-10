@@ -7,8 +7,7 @@ import Admin from './views/Admin';
 import Producto from './views/Producto';
 import Login from './views/Login';
 import Carrito from './views/Carrito';
-// import Register from './views/register';
-// import ConfirmOrder from './views/confirmorder';
+import Register from './views/Register';
 
 function App() {
   const [menu, setMenu] = useState([]);
@@ -97,7 +96,7 @@ function App() {
           <Route path="/admin/pedidos" element={token ? <Admin /> : <Navigate to="/login" />} />
           <Route path="/pedidos/producto/:id" element={<Producto addToOrder={addToOrder} />} />
           <Route path="/login" element={<Login setToken={setToken} />} />
-          {/* <Route path="/register" element={<Register />} /> */}
+          <Route path="/register" element={<Register />} />
         </Routes>
       </div>
     </Router>

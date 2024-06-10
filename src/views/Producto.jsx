@@ -84,6 +84,8 @@ export default function Producto({ addToOrder }) {
     navigate("/menu");
   };
 
+  const goBack = () => navigate("/menu");
+
   return (
     <>
       <div className="h-dvh flex flex-col justify-between bg-white text-black">
@@ -93,7 +95,10 @@ export default function Producto({ addToOrder }) {
           src={`../../src/assets/img/${productId}.jpg`}
         />
         <div className=" p-6 flex flex-col justify-between h-full">
-          <h2 className="font-bold text-2xl">{product.nombre}</h2>
+          <div>
+            <Button onClick={goBack}>BACK</Button>
+            <h2 className="font-bold text-2xl">{product.nombre}</h2>
+          </div>
           <p>{product.alergenos}</p>
           <div>
             <Table aria-label="Example static collection table">
