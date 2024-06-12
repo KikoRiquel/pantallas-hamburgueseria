@@ -99,7 +99,7 @@ export default function Producto({ addToOrder }) {
               <Button variant="light" isIconOnly onClick={() => navigate("/menu")}>
                 <ArrowBack />
               </Button>
-              <h2 className="font-bold text-2xl">{product.nombre}</h2>
+              <h2 className="font-bold text-2xl">{product.nombre}s</h2>
             </div>
             <div>
               <h3 className="font-bold text-xl">Alergenos</h3>
