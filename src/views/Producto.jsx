@@ -92,6 +92,7 @@ export default function Producto({ addToOrder }) {
           heigh={400}
           alt={product.nombre}
           src={`../../src/assets/img/${productId}.jpg`}
+          className="rounded-b-[10px] rounded-t-none"
         />
         <div className=" px-6 pt-3 pb-8 h-full flex flex-col justify-between">
           <div className="flex flex-col gap-3">

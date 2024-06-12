@@ -8,6 +8,8 @@ import Producto from './views/Producto';
 import Login from './views/Login';
 import Carrito from './views/Carrito';
 import Register from './views/Register';
+import { OrderConfirmer } from './views/OrderConfirmer';
+
 
 function App() {
   const [menu, setMenu] = useState([]);
@@ -96,6 +98,7 @@ function App() {
           <Route path="/admin/pedidos" element={token ? <Admin /> : <Navigate to="/login" />} />
           <Route path="/pedidos/producto/:id" element={<Producto addToOrder={addToOrder} />} />
           <Route path="/login" element={<Login setToken={setToken} />} />
+          <Route path="/pedido-confirmado" element={<OrderConfirmer />} />
           <Route path="/register" element={<Register />} />
         </Routes>
       </div>

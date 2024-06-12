@@ -2,13 +2,18 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import Login from "./Login";
 import {
-  Table,
-  TableHeader,
-  TableColumn,
-  TableBody,
-  TableRow,
-  TableCell,
+  Card,
+  CardHeader,
+  CardBody,
+  CardFooter,
+  Divider,
+  CheckboxGroup,
+  Checkbox,
   Button,
+  Dropdown,
+  DropdownTrigger,
+  DropdownMenu,
+  DropdownItem,
 } from "@nextui-org/react";
 
 const Admin = () => {
@@ -158,65 +163,118 @@ const Admin = () => {
         <Login setToken={setToken} />
       ) : (
         <div>
-          <h1 className="font-bold text-3xl">Pedidos</h1>
+          <div className="flex justify-between mb-4">
+            <h1 className="font-bold text-3xl">🧾Pedidos</h1>
+            <Dropdown>
+              <DropdownTrigger>
+                <Button variant="bordered" isIconOnly>🔽</Button>
+              </DropdownTrigger>
+              <DropdownMenu aria-label="Static Actions">
+                <DropdownItem key="new">Pedidos anteriores</DropdownItem>
+                <DropdownItem
+                  key="delete"
+                  className="text-danger"
+                  color="danger"
+                  onClick={handleLogout}
+                >
+                  Cerrar sesión
+                </DropdownItem>
+              </DropdownMenu>
+            </Dropdown>
+          </div>
           {pedidos.length === 0 ? (
             <p>No hay pedidos.</p>
           ) : (
             <>
-              <div className="row">
+              <div>
                 {pedidos.map((pedido) => (
                   <>
                     <>
-                      <div key={pedido.pedido_ID}>
-                        <h1>Mesa: {pedido.numero_mesa}</h1>
-                        <Table color="primary" selectionMode="multiple">
-                          <TableHeader>
-                            <TableColumn>Producto</TableColumn>
-                            <TableColumn>Precio</TableColumn>
-                          </TableHeader>
-                          <TableBody>
+                      <Card
+                        key={pedido.pedido_ID}
+                        className={`mb-4 box-border p-4 ${pedido.estado === "listo" ? "border-2 border-green-600" : ""}`}
+                      >
+                        <CardHeader className="p-0 flex flex-row justify-between">
+                          <h1 className="font-bold text-xl">
+                            <small className=" mb-2 text-zinc-500">
+                              {pedido.pedido_ID}.{" "}
+                            </small>
+                            Mesa {pedido.numero_mesa}
+                          </h1>
+                          <Button
+                          className={` ${pedido.estado === "listo" ? "hidden" : ""}`}
+                            variant="light"
+                            color="danger"
+                            size="sm"
+                            onClick={() =>
+                              handleFinalizeOrder(pedido.pedido_ID)
+                            }
+                          >
+                            Cerrar pedido
+                          </Button>
+                        </CardHeader>
+
+                        <CardBody className="p-0 scrollbar-hide overflow-y-hidden">
+                          <CheckboxGroup>
                             {pedido.detalles.map((detalle, index) => (
-                              <TableRow key={index}>
-                                <TableCell>
-                                  {detalle.nombre}
-                                  {detalle.ingredientes && (
-                                    <ul>
-                                      {Object.keys(detalle.ingredientes).map(
-                                        (ingredient) => (
-                                          <li key={ingredient}>
-                                            {ingredient}:{" "}
-                                            {detalle.ingredientes[ingredient]}
-                                          </li>
-                                        )
-                                      )}
-                                    </ul>
-                                  )}
-                                </TableCell>
-                                <TableCell>{detalle.precio_unitario}</TableCell>
-                              </TableRow>
+                              <div key={index}>
+                                <Checkbox
+                                  radius="sm"
+                                  value={index}
+                                  className="font-bold"
+                                  color={`${pedido.estado === "listo" ? "success" : "primary"}`}
+                                  lineThrough="true"
+                                >
+                                  <p className="text-zinc-700">
+                                    {detalle.nombre}
+                                  </p>
+                                </Checkbox>
+                                {detalle.ingredientes && (
+                                  <ul>
+                                    {Object.keys(detalle.ingredientes).map(
+                                      (ingredient) => (
+                                        <li
+                                          key={ingredient}
+                                          className="text-zinc-600"
+                                        >
+                                          - {ingredient}:{" "}
+                                          {detalle.ingredientes[ingredient]}
+                                        </li>
+                                      )
+                                    )}
+                                  </ul>
+                                )}
+                              </div>
                             ))}
-                          </TableBody>
-                        </Table>
-                        <Button
-                          className="btn btn-primary"
-                          onClick={() => handleFinalizeOrder(pedido.pedido_ID)}
-                        >
-                          Finalizar pedido
-                        </Button>
-                        <Button
-                          className="btn btn-secondary ml-2"
-                          onClick={() => handleGenerateTicket(pedido.pedido_ID)}
-                        >
-                          Descargar Ticket
-                        </Button>
-                        <p className="text-right mt-3">
-                          Total: {pedido.total}€
-                        </p>
-                      </div>
+                          </CheckboxGroup>
+                        </CardBody>
+
+                        <CardFooter className="flex flex-col justify-between mt-2 p-0">
+                          <Divider />
+                          <div className="flex flex-row justify-between w-full pt-1">
+                            <Button
+                              onClick={() =>
+                                handleGenerateTicket(pedido.pedido_ID)
+                              }
+                              variant="flat"
+                              color={`${pedido.estado === "listo" ? "success" : "primary"}`}
+                              size="sm"
+                            >
+                              Descargar Ticket
+                            </Button>
+                            <p className="text-orange-500 text-lg">
+                              Total:{" "}
+                              <span className="font-bold">
+                                {" "}
+                                {pedido.total}{" "}
+                              </span>
+                            </p>
+                          </div>
+                        </CardFooter>
+                      </Card>
                     </>
                   </>
                 ))}
-                <Button onClick={handleLogout}>Cerrar Sesión</Button>
               </div>
             </>
           )}

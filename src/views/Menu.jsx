@@ -81,15 +81,15 @@ function Menu({
         <header className="flex flex-row gap-2 items-center">
           <div className="flex flex-col pb-1 basis-2/3">
             <h2 className="font-bold text-3xl">
-              ¡Hola <span className="text-orange-500">{userName} </span>!
+              👋🏼¡Hola <span className="text-orange-500">{userName} </span>!
             </h2>
             <h6 className="text-sm font-bold">
               Tu número de mesa es{" "}
               <span className="text-orange-500"> {table} </span>
             </h6>
             <p className="text-xs text-default-600">
-              Si número de mesa no es correcto <br /> puedes cambiarlo
-              <Link href="/" className="text-xs">
+              Si número de mesa no es correcto <br /> puedes cambiarlo {" "}
+              <Link href="/" className="text-xs text-orange-500">
                 aquí
               </Link>
             </p>
@@ -113,9 +113,9 @@ function Menu({
           )}
         </header>
         <div className="mb-6 mt-6">
-          <h3 className="text-lg font-bold mb-2">Categorias</h3>
+          <h3 className="text-lg font-bold mb-2">🍔 Categorias</h3>
 
-          <div className="flex flex-nowrap gap-2 items-center overflow-x-auto scrollbar-hide ">
+          <div className="flex flex-nowrap gap-2 items-center overflow-x-auto scrollbar-hide scroll-smooth">
             {categories.map((category, index) => (
               <Button
                 variant="bordered"
@@ -156,14 +156,14 @@ function Menu({
                       src={imagePath}
                     />
                   </CardBody>
-                  <CardFooter className=" justify-between">
+                  <CardFooter className=" justify-between py-2 px-3">
                     <h4 className="text-xl font-bold">{item.nombre}</h4>
                     <p className="text-lg font-bold text-orange-500">
-                      {item.precio}
+                      {item.precio} €
                     </p>
                   </CardFooter>
                   <div className="justify-between pr-3 pl-3 text-left">
-                    <p className="text-base text-zinc-600">
+                    <p className="text-base text-zinc-600 mb-2">
                       {item.descripcion}
                     </p>
                     {productQuantities[item.producto_id] !== undefined && (

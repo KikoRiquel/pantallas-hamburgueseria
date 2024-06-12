@@ -11,7 +11,7 @@ import {
 export default function Pedidos() {
   return (
     <>
-      <div className="pl-6 pr-6 pt-11 pb-8">
+      
         <h1 className="font-bold text-3xl mb-6">Pedidos</h1>
         <div className="flex flex-col gap-3">
           <Table
@@ -40,7 +40,7 @@ export default function Pedidos() {
           </Table>
           <Divider />
         </div>
-      </div>
+      
     </>
   );
 }
