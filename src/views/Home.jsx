@@ -12,6 +12,19 @@ export default function Home({ setTable, setShowMenu, setUserName }) {
       alert("Por favor, introduce el número de mesa y tu nombre");
       return;
     }
+
+
+    if (!/^[a-zA-Z]+$/.test(userNameInput)) {
+      alert("El nombre solo puede contener letras");
+      return;
+    }
+
+    if (!/^[1-5]$/.test(tableInput)) {
+      alert("El número de mesa debe ser un número del 1 al 5 y no debe contener letras");
+      return;
+    }
+
+
     setTable(tableInput);
     setUserName(userNameInput);
     setShowMenu(true);
@@ -39,7 +52,7 @@ export default function Home({ setTable, setShowMenu, setUserName }) {
             <Input
               type="text"
               variant="underlined"
-              label="Nº de mesa"
+              label="Nº de mesa (Introduce un número del 1 al 5)"
               id="tableNumber"
               value={tableInput}
               onChange={(e) => setTableInput(e.target.value)}

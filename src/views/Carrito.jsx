@@ -1,5 +1,5 @@
 import { Textarea, Button } from "@nextui-org/react";
-import { CardPedido } from "../components";
+import CardPedido from "../components/CardPedido";
 import { ArrowBack } from "../assets/svg/ArrowBack";
 import { useNavigate } from "react-router-dom";
 
@@ -15,6 +15,8 @@ const Carrito = ({ order, setOrder, submitOrder }) => {
             : orderItem
         )
       );
+    } else {
+      handleRemoveItem(item);
     }
   };
 
@@ -30,16 +32,16 @@ const Carrito = ({ order, setOrder, submitOrder }) => {
 
   return (
     <>
-      <div className="pl-6 pr-6 pt-11 pb-8 h-dvh flex flex-col justify-between">
+      <div className="pl-6 pr-6 pt-11 pb-8 h-full flex flex-col justify-between">
         <div className="flex flex-row items-center">
           <Button variant="light" isIconOnly onClick={() => navigate("/menu")}>
             <ArrowBack />
           </Button>
-          <h1 className="font-bold text-3xl">🛒Tu pedido</h1>
+          <h1 className="font-bold text-3xl">Tu pedido</h1>
         </div>
         <div className="flex flex-col gap-6 h-full justify-between">
           <div className="mt-4">
-            <h3 className="font-bold text-xl mb-2">🍔Comida</h3>
+            <h3 className="font-bold text-xl mb-2">Comida</h3>
             {order.map((item) => (
               <div className="mb-2" key={item.producto_id}>
                 <CardPedido
@@ -47,7 +49,8 @@ const Carrito = ({ order, setOrder, submitOrder }) => {
                   name={item.nombre}
                   price={item.precio}
                   cantidad={item.cantidad}
-                  className="mb-2"
+                  onIncrement={() => handleQuantityChange(item, item.cantidad + 1)}
+                  onDecrement={() => handleQuantityChange(item, item.cantidad - 1)}
                 />
               </div>
             ))}
@@ -67,6 +70,7 @@ const Carrito = ({ order, setOrder, submitOrder }) => {
               color="primary"
               className="w-full mt-9"
               onClick={submitOrder}
+              disabled={order.length === 0}
             >
               Confirmar pedido por {totalPrice}€
             </Button>
