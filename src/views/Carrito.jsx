@@ -30,6 +30,10 @@ const Carrito = ({ order, setOrder, submitOrder }) => {
     .reduce((total, item) => total + item.precio * item.cantidad, 0)
     .toFixed(2);
 
+  const handleSubmitOrder = () => {
+    submitOrder(() => navigate("/pedido-confirmado"));
+  };
+
   return (
     <>
       <div className="pl-6 pr-6 pt-11 pb-8 h-full flex flex-col justify-between">
@@ -43,12 +47,13 @@ const Carrito = ({ order, setOrder, submitOrder }) => {
           <div className="mt-4">
             <h3 className="font-bold text-xl mb-2">Comida</h3>
             {order.map((item) => (
-              <div className="mb-2" key={item.producto_id}>
+              <div className="mb-2" key={item.customId}>
                 <CardPedido
                   id={item.producto_id}
                   name={item.nombre}
-                  price={item.precio}
+                  price={item.precio.toFixed(2)}
                   cantidad={item.cantidad}
+                  ingredientes={item.ingredientes}
                   onIncrement={() => handleQuantityChange(item, item.cantidad + 1)}
                   onDecrement={() => handleQuantityChange(item, item.cantidad - 1)}
                 />
@@ -69,7 +74,7 @@ const Carrito = ({ order, setOrder, submitOrder }) => {
             <Button
               color="primary"
               className="w-full mt-9"
-              onClick={submitOrder}
+              onClick={handleSubmitOrder}
               disabled={order.length === 0}
             >
               Confirmar pedido por {totalPrice}€

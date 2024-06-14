@@ -31,10 +31,10 @@ function App() {
   }, []);
 
   const addToOrder = (item) => {
-    const existingItem = order.find(orderItem => orderItem.producto_id === item.producto_id);
+    const existingItem = order.find(orderItem => orderItem.customId === item.customId);
     if (existingItem) {
       setOrder(order.map(orderItem =>
-        orderItem.producto_id === item.producto_id
+        orderItem.customId === item.customId
           ? { ...orderItem, cantidad: orderItem.cantidad + 1 }
           : orderItem
       ));
@@ -56,7 +56,7 @@ function App() {
     }
   };
 
-  const submitOrder = () => {
+  const submitOrder = (callback) => {
     if (!table || !userName) {
       alert('Por favor, introduce el número de mesa y tu nombre');
       return;
@@ -81,6 +81,7 @@ function App() {
       setOrder([]);
       setTable(null);
       setUserName('');
+      callback();  // Redirigir al usuario después de un envío exitoso
     })
     .catch(error => {
       console.error('Error submitting order:', error);
@@ -107,4 +108,3 @@ function App() {
 }
 
 export default App;
-

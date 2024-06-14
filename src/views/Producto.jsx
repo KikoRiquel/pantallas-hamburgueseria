@@ -8,12 +8,11 @@ import {
   TableCell,
   Button,
 } from "@nextui-org/react";
-import { domMax } from "framer-motion";
 import { ArrowBack } from "../assets/svg/ArrowBack";
-
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
+import Counter from "../components/Counter"; // Asegúrate de que la ruta sea correcta
 
 const ingredientPrices = {
   Tomate: 0.5,
@@ -65,6 +64,16 @@ export default function Producto({ addToOrder }) {
     }));
   };
 
+  const handleIncrement = (ingredient) => {
+    handleIngredientChange(ingredient, ingredientQuantities[ingredient] + 1);
+  };
+
+  const handleDecrement = (ingredient) => {
+    if (ingredientQuantities[ingredient] > 0) {
+      handleIngredientChange(ingredient, ingredientQuantities[ingredient] - 1);
+    }
+  };
+
   const handleAddToOrder = () => {
     const totalIngredientPrice = Object.keys(ingredientQuantities).reduce(
       (total, ingredient) => {
@@ -76,10 +85,18 @@ export default function Producto({ addToOrder }) {
       0
     );
     const totalPrice = product.precio + totalIngredientPrice;
+
+    const ingredientString = Object.entries(ingredientQuantities)
+      .sort()
+      .map(([ingredient, quantity]) => `${ingredient}:${quantity}`)
+      .join(',');
+
     addToOrder({
       ...product,
+      id: product.id, // Añade el id original
+      customId: ingredientString ? `${product.id}-${ingredientString}` : product.id, // Si los ingredientes se modifican, genera un customId, si no, usa el id original
       cantidad: 1,
-      ingredientes: ingredientQuantities,
+      ingredientes: ingredientQuantities, // Pasamos los ingredientes seleccionados
       precioTotal: totalPrice,
     });
     navigate("/menu");
@@ -118,18 +135,10 @@ export default function Producto({ addToOrder }) {
                   <TableRow key={ingredient} className="mb-2">
                     <TableCell>{ingredient}:</TableCell>
                     <TableCell>
-                      <input
-                        type="number"
-                        min="0"
-                        value={ingredientQuantities[ingredient]}
-                        onChange={(e) =>
-                          handleIngredientChange(
-                            ingredient,
-                            parseInt(e.target.value) || 0
-                          )
-                        }
-                        className="form-control d-inline-block"
-                        style={{ width: "60px" }}
+                      <Counter
+                        cantidad={ingredientQuantities[ingredient]}
+                        onIncrement={() => handleIncrement(ingredient)}
+                        onDecrement={() => handleDecrement(ingredient)}
                       />
                     </TableCell>
                   </TableRow>
@@ -142,7 +151,7 @@ export default function Producto({ addToOrder }) {
             className="w-full bg-orange-500 text-white"
             onClick={handleAddToOrder}
           >
-            Añadir al carrito por 5.50€
+            Añadir al carrito por {product.precio}€
           </Button>
         </div>
       </div>

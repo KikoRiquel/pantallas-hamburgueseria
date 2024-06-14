@@ -33,16 +33,16 @@ function Menu({
   const handleAddToOrder = (item) => {
     const updatedQuantities = {
       ...productQuantities,
-      [item.producto_id]: (productQuantities[item.producto_id] || 0) + 1,
+      [item.customId]: (productQuantities[item.customId] || 0) + 1, // Usa customId en lugar de producto_id
     };
     setProductQuantities(updatedQuantities);
     const existingItem = order.find(
-      (orderItem) => orderItem.producto_id === item.producto_id
+      (orderItem) => orderItem.customId === item.customId // Usa customId en lugar de producto_id
     );
     if (existingItem) {
       setOrder(
         order.map((orderItem) =>
-          orderItem.producto_id === item.producto_id
+          orderItem.customId === item.customId // Usa customId en lugar de producto_id
             ? { ...orderItem, cantidad: orderItem.cantidad + 1 }
             : orderItem
         )
@@ -88,8 +88,8 @@ function Menu({
           <span className="text-orange-500"> {table} </span>
         </h6>
           <p className="text-xs text-default-600">
-            Si número de mesa no es correcto <br /> puedes cambiarlo
-            <Link to="/" className="text-xs">
+            Si número de mesa no es correcto <br /> puedes cambiarlo {" "}
+            <Link to="/" className="text-xs text-orange-500">
               aquí
             </Link>
           </p>
@@ -161,7 +161,7 @@ function Menu({
                 >
                   <h4 className="text-xl font-bold">{item.nombre}</h4>
                   <p className="text-lg font-bold text-orange-500">
-                    {item.precio}
+                    {item.precio.toFixed(2)}€
                   </p>
                 </CardFooter>
                 <div className="justify-between pr-3 pl-3 text-left">

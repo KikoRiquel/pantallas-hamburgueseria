@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Login from "./Login";
 import {
@@ -10,10 +10,6 @@ import {
   CheckboxGroup,
   Checkbox,
   Button,
-  Dropdown,
-  DropdownTrigger,
-  DropdownMenu,
-  DropdownItem,
 } from "@nextui-org/react";
 
 const Admin = () => {
@@ -63,28 +59,33 @@ const Admin = () => {
 
     try {
       const detallesArray = JSON.parse(jsonString);
-      return detallesArray.map((detalle, index) => {
+      let productos = [];
+      detallesArray.forEach((detalle, index) => {
         const ingredientes = detalle.ingredientes
           ? JSON.parse(detalle.ingredientes)
           : {};
-        const producto = {
-          producto_id: detalle.producto_id,
-          nombre: detalle.nombre,
-          precio_unitario: detalle.precio_unitario,
-          entregado: detalle.entregado || false,
-          cantidad: detalle.cantidad,
-          ingredientes,
-          key: `${pedidoId}-${detalle.producto_id}-${index}`,
-        };
-        return producto;
+        for (let i = 0; i < detalle.cantidad; i++) {
+          const producto = {
+            producto_id: detalle.producto_id,
+            customId: detalle.customId || detalle.producto_id,
+            nombre: detalle.nombre,
+            precio_unitario: detalle.precio_unitario,
+            entregado: detalle.entregado || false,
+            cantidad: detalle.cantidad,
+            ingredientes,
+            key: `${pedidoId}-${detalle.customId || detalle.producto_id}-${index}-${i}`,
+          };
+          productos.push(producto);
+        }
       });
+      return productos;
     } catch (error) {
       console.error("Error parsing JSON string:", jsonString, error);
       throw error;
     }
   };
 
-  const handleCheckboxChange = (pedidoId, productoId, cantidad, index) => {
+  const handleCheckboxChange = (pedidoId, productoId, index) => {
     setPedidos((prevPedidos) => {
       const updatedPedidos = prevPedidos.map((pedido) => {
         if (pedido.pedido_ID === pedidoId) {
@@ -165,44 +166,49 @@ const Admin = () => {
         <div>
           <div className="flex justify-between mb-4">
             <h1 className="font-bold text-3xl">🧾Pedidos</h1>
-            <Dropdown>
-              <DropdownTrigger>
-                <Button variant="bordered" isIconOnly>🔽</Button>
-              </DropdownTrigger>
-              <DropdownMenu aria-label="Static Actions">
-                <DropdownItem key="new">Pedidos anteriores</DropdownItem>
-                <DropdownItem
-                  key="delete"
-                  className="text-danger"
-                  color="danger"
-                  onClick={handleLogout}
-                >
-                  Cerrar sesión
-                </DropdownItem>
-              </DropdownMenu>
-            </Dropdown>
+            <Button 
+              key="delete"
+              className="text-danger"
+              color="white"
+              onClick={handleLogout}
+            >
+              Cerrar sesión
+            </Button>
           </div>
           {pedidos.length === 0 ? (
             <p>No hay pedidos.</p>
           ) : (
             <>
               <div>
-                {pedidos.map((pedido) => (
-                  <>
-                    <>
+                {pedidos.map((pedido) => {
+                  const fechaPedido = new Date(pedido.fecha_pedido);
+                  const fechaPedidoFormatted = fechaPedido.toLocaleDateString('es-ES', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                    hour: 'numeric',
+                    minute: 'numeric',
+                    second: 'numeric',
+                  });
+
+                  return (
+                    <React.Fragment key={pedido.pedido_ID}>
                       <Card
-                        key={pedido.pedido_ID}
                         className={`mb-4 box-border p-4 ${pedido.estado === "listo" ? "border-2 border-green-600" : ""}`}
                       >
                         <CardHeader className="p-0 flex flex-row justify-between">
                           <h1 className="font-bold text-xl">
-                            <small className=" mb-2 text-zinc-500">
+                            <small className="mb-2 text-zinc-500">
                               {pedido.pedido_ID}.{" "}
                             </small>
-                            Mesa {pedido.numero_mesa}
+                            Mesa {pedido.numero_mesa} - {pedido.user_name}
+                            <br />
+                            <small className="text-zinc-500">
+                              {fechaPedidoFormatted}
+                            </small>
                           </h1>
                           <Button
-                          className={` ${pedido.estado === "listo" ? "hidden" : ""}`}
+                            className={` ${pedido.estado === "listo" ? "hidden" : ""}`}
                             variant="light"
                             color="danger"
                             size="sm"
@@ -217,7 +223,7 @@ const Admin = () => {
                         <CardBody className="p-0 scrollbar-hide overflow-y-hidden">
                           <CheckboxGroup>
                             {pedido.detalles.map((detalle, index) => (
-                              <div key={index}>
+                              <div key={`${pedido.pedido_ID}-${detalle.customId || detalle.producto_id}-${index}`}>
                                 <Checkbox
                                   radius="sm"
                                   value={index}
@@ -247,6 +253,12 @@ const Admin = () => {
                               </div>
                             ))}
                           </CheckboxGroup>
+                          {pedido.observaciones && (
+                            <div className="mt-2">
+                              <p className="font-bold text-zinc-700">Observaciones:</p>
+                              <p className="text-zinc-600">{pedido.observaciones}</p>
+                            </div>
+                          )}
                         </CardBody>
 
                         <CardFooter className="flex flex-col justify-between mt-2 p-0">
@@ -266,15 +278,15 @@ const Admin = () => {
                               Total:{" "}
                               <span className="font-bold">
                                 {" "}
-                                {pedido.total}{" "}
+                                {typeof pedido.total === 'number' ? pedido.total.toFixed(2) : pedido.total}€
                               </span>
                             </p>
                           </div>
                         </CardFooter>
                       </Card>
-                    </>
-                  </>
-                ))}
+                    </React.Fragment>
+                  );
+                })}
               </div>
             </>
           )}

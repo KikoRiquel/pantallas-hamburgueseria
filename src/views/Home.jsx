@@ -6,13 +6,13 @@ export default function Home({ setTable, setShowMenu, setUserName }) {
   const navigate = useNavigate();
   const [tableInput, setTableInput] = useState("");
   const [userNameInput, setUserNameInput] = useState("");
+  const [accessCode, setAccessCode] = useState(""); // Nuevo estado para el código de acceso
 
   const handleStartOrder = () => {
     if (!tableInput || !userNameInput) {
       alert("Por favor, introduce el número de mesa y tu nombre");
       return;
     }
-
 
     if (!/^[a-zA-Z]+$/.test(userNameInput)) {
       alert("El nombre solo puede contener letras");
@@ -24,6 +24,11 @@ export default function Home({ setTable, setShowMenu, setUserName }) {
       return;
     }
 
+    // Nuevo: Validación del código de acceso
+    if (accessCode !== "$$$$") {
+      alert("Código de acceso incorrecto");
+      return;
+    }
 
     setTable(tableInput);
     setUserName(userNameInput);
@@ -56,6 +61,17 @@ export default function Home({ setTable, setShowMenu, setUserName }) {
               id="tableNumber"
               value={tableInput}
               onChange={(e) => setTableInput(e.target.value)}
+            ></Input>
+          </div>
+          <div>
+            <h2 className="text-3xl font-bold">Introduce el código de acceso</h2>
+            <Input
+              type="password"
+              variant="underlined"
+              label="Código de acceso"
+              id="accessCode"
+              value={accessCode}
+              onChange={(e) => setAccessCode(e.target.value)}
             ></Input>
           </div>
         </div>
