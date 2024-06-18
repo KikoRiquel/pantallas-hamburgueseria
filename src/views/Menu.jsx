@@ -37,42 +37,18 @@ function Menu({
     };
     setProductQuantities(updatedQuantities);
     const existingItem = order.find(
-      (orderItem) => orderItem.customId === item.customId
+      (orderItem) => orderItem.producto_id === item.producto_id
     );
     if (existingItem) {
       setOrder(
         order.map((orderItem) =>
-          orderItem.customId === item.customId
+          (orderItem.producto_id === item.producto_id && orderItem.ingredientes === item.ingredientes)
             ? { ...orderItem, cantidad: orderItem.cantidad + 1 }
             : orderItem
         )
       );
     } else {
       addToOrder({ ...item, cantidad: 1, customId: `${item.producto_id}_${Date.now()}` });
-    }
-  };
-
-  const handleRemoveFromOrder = (item) => {
-    const updatedQuantities = { ...productQuantities };
-    if (productQuantities[item.producto_id] > 1) {
-      updatedQuantities[item.producto_id] -= 1;
-    } else {
-      delete updatedQuantities[item.producto_id];
-    }
-    setProductQuantities(updatedQuantities);
-    const existingItem = order.find(
-      (orderItem) => orderItem.producto_id === item.producto_id
-    );
-    if (existingItem.cantidad > 1) {
-      setOrder(
-        order.map((orderItem) =>
-          orderItem.producto_id === item.producto_id
-            ? { ...orderItem, cantidad: orderItem.cantidad - 1 }
-            : orderItem
-        )
-      );
-    } else {
-      removeFromOrder(item);
     }
   };
 

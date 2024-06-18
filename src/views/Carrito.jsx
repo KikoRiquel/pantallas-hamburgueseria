@@ -10,7 +10,7 @@ const Carrito = ({ order, setOrder, submitOrder }) => {
     if (quantity > 0) {
       setOrder(
         order.map((orderItem) =>
-          orderItem.producto_id === item.producto_id
+          orderItem === item
             ? { ...orderItem, cantidad: quantity }
             : orderItem
         )
