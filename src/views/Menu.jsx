@@ -77,7 +77,7 @@ function Menu({
   };
 
   return (
-    <div className="pl-6 pr-6 pt-11 pb-8">
+    <div className="pl-6 pr-6 pt-8 pb-8">
     <header className="flex flex-row gap-2 items-center">
       <div className="flex flex-col pb-1 basis-2/3">
         <h2 className="font-bold text-3xl">

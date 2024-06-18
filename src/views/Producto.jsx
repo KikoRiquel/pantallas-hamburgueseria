@@ -42,7 +42,7 @@ export default function Producto({ addToOrder }) {
     const fetchProduct = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/pedidos/producto/${productId}`
+          `http://192.168.1.131:5000/pedidos/producto/${productId}`
         );
         setProduct(response.data);
       } catch (error) {
@@ -111,7 +111,7 @@ export default function Producto({ addToOrder }) {
           src={`../../src/assets/img/${productId}.jpg`}
           className="rounded-b-[10px] rounded-t-none"
         />
-        <div className=" px-6 pt-3 pb-8 h-full flex flex-col justify-between">
+        <div className=" px-6 pt-3 pb-8 h-full flex flex-col gap-3 justify-between">
           <div className="flex flex-col gap-3">
             <div className="flex flex-row items-center">
               <Button variant="light" isIconOnly onClick={() => navigate("/menu")}>
@@ -119,20 +119,19 @@ export default function Producto({ addToOrder }) {
               </Button>
               <h2 className="font-bold text-2xl">{product.nombre}</h2>
             </div>
-            <div>
-              <h3 className="font-bold text-xl">Alergenos</h3>
+
               <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
                 {product.alergenos && product.alergenos.split(',').map((alergenoId, index) => (
                   <Image
                     key={index}
-                    heigh={70}
+                    heigh={50}
                     alt={alergenoId}
                     src={`../../src/assets/img/${alergenoId.trim()}.png`}
-                    width={70}
+                    width={50}
                   />
                 ))}
               </div>
-            </div>
+
             <Table aria-label="Example static collection table">
               <TableHeader>
                 <TableColumn className="font-bold text-lg text-black">

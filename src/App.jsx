@@ -20,7 +20,7 @@ function App() {
   const [token, setToken] = useState(localStorage.getItem('token') || '');
 
   useEffect(() => {
-    axios.get('http://localhost:5000/carta')
+    axios.get(`http://192.168.1.131:5000/carta`)
       .then(response => {
         setMenu(response.data);
         setShowMenu(true); // Mostrar menú después de cargar datos
@@ -64,7 +64,7 @@ function App() {
 
     const orderWithQuantity = order.map(item => ({ ...item, cantidad: item.cantidad || 1 }));
 
-    axios.post('http://localhost:5000/pedido', {
+    axios.post('http://192.168.1.131:5000/pedido', {
       mesa_id: table,
       user_name: userName,
       productos: orderWithQuantity,

@@ -19,7 +19,7 @@ const Admin = () => {
   useEffect(() => {
     if (token) {
       axios
-        .get("http://localhost:5000/admin/pedidos", {
+        .get("http://192.168.1.131:5000/admin/pedidos", {
           headers: { Authorization: `Bearer ${token}` },
         })
         .then((response) => {
@@ -111,7 +111,7 @@ const Admin = () => {
   const handleFinalizeOrder = async (pedidoId) => {
     try {
       await axios.put(
-        `http://localhost:5000/admin/pedidos/${pedidoId}`,
+        `http://192.168.1.131:5000/admin/pedidos/${pedidoId}`,
         {
           estado: "listo",
         },
@@ -130,7 +130,7 @@ const Admin = () => {
   const handleGenerateTicket = async (pedidoId) => {
     try {
       const response = await axios.get(
-        `http://localhost:5000/admin/pedidos/${pedidoId}/ticket`,
+        `http://192.168.1.131:5000/admin/pedidos/${pedidoId}/ticket`,
         {
           headers: { Authorization: `Bearer ${token}` },
           responseType: "blob",

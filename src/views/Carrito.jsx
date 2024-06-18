@@ -34,7 +34,7 @@ const Carrito = ({ order, setOrder, submitOrder }) => {
 
   return (
     <>
-      <div className="pl-6 pr-6 pt-11 pb-8 h-full flex flex-col justify-between">
+      <div className="pl-6 pr-6 pt-6 pb-8 h-dvh flex flex-col justify-between">
         <div className="flex flex-row items-center">
           <Button variant="light" isIconOnly onClick={() => navigate("/menu")}>
             <ArrowBack />
@@ -52,8 +52,12 @@ const Carrito = ({ order, setOrder, submitOrder }) => {
                 price={item.precio.toFixed(2)}
                 cantidad={item.cantidad}
                 ingredientes={item.ingredientes}
-                onIncrement={() => handleQuantityChange(item, item.cantidad + 1)}
-                onDecrement={() => handleQuantityChange(item, item.cantidad - 1)}
+                onIncrement={() =>
+                  handleQuantityChange(item, item.cantidad + 1)
+                }
+                onDecrement={() =>
+                  handleQuantityChange(item, item.cantidad - 1)
+                }
               />
             ))}
           </div>

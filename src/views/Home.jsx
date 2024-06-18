@@ -1,4 +1,4 @@
-import { Input, Button } from "@nextui-org/react";
+import { Input, Button, Image } from "@nextui-org/react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -20,7 +20,9 @@ export default function Home({ setTable, setShowMenu, setUserName }) {
     }
 
     if (!/^[1-5]$/.test(tableInput)) {
-      alert("El número de mesa debe ser un número del 1 al 5 y no debe contener letras");
+      alert(
+        "El número de mesa debe ser un número del 1 al 5 y no debe contener letras"
+      );
       return;
     }
 
@@ -38,11 +40,18 @@ export default function Home({ setTable, setShowMenu, setUserName }) {
 
   return (
     <>
-      <div className="flex flex-col justify-between h-screen p-6 pt-32 bg-orange-500 text-white">
-        <h1 className="text-5xl font-bold">¡Encantados de tenerte aquí!</h1>
-        <div className="flex flex-col gap-8 mt-12">
+      <div className="flex flex-col justify-between h-dvh px-6 pb-6 bg-orange-500 text-white">
+        <div className="flex justify-center">
+          <Image
+            alt="logo"
+            width={200}
+            src={`..\\src\\assets\\img\\logo.png`}
+          />
+        </div>
+        <h1 className="text-3xl font-bold">¡Encantados de tenerte aquí!</h1>
+        <div className="flex flex-col gap-6 mt-6">
           <div>
-            <h2 className="text-3xl font-bold">¿Cómo te llamas?</h2>
+            <h2 className="text-2xl font-bold">¿Cómo te llamas?</h2>
             <Input
               type="email"
               variant="underlined"
@@ -53,7 +62,7 @@ export default function Home({ setTable, setShowMenu, setUserName }) {
             />
           </div>
           <div>
-            <h2 className="text-3xl font-bold">¿En qué mesa estás sentad@?</h2>
+            <h2 className="text-2xl font-bold">¿En qué mesa estás sentad@?</h2>
             <Input
               type="text"
               variant="underlined"
@@ -64,7 +73,9 @@ export default function Home({ setTable, setShowMenu, setUserName }) {
             ></Input>
           </div>
           <div>
-            <h2 className="text-3xl font-bold">Introduce el código de acceso</h2>
+            <h2 className="text-2xl font-bold">
+              Introduce el código de acceso
+            </h2>
             <Input
               type="password"
               variant="underlined"
@@ -76,7 +87,11 @@ export default function Home({ setTable, setShowMenu, setUserName }) {
           </div>
         </div>
         <div className="mt-auto">
-          <Button size="lg" className="w-full bg-white text-orange-500" onClick={handleStartOrder}>
+          <Button
+            size="lg"
+            className="w-full bg-white text-orange-500"
+            onClick={handleStartOrder}
+          >
             ¡Adelante!
           </Button>
         </div>
