@@ -21,9 +21,7 @@ const Carrito = ({ order, setOrder, submitOrder }) => {
   };
 
   const handleRemoveItem = (item) => {
-    setOrder(
-      order.filter((orderItem) => orderItem.producto_id !== item.producto_id)
-    );
+    setOrder(order.filter((orderItem) => orderItem.customId !== item.customId));
   };
 
   const totalPrice = order
@@ -47,17 +45,16 @@ const Carrito = ({ order, setOrder, submitOrder }) => {
           <div className="mt-4">
             <h3 className="font-bold text-xl mb-2">Comida</h3>
             {order.map((item) => (
-              <div className="mb-2" key={item.customId}>
-                <CardPedido
-                  id={item.producto_id}
-                  name={item.nombre}
-                  price={item.precio.toFixed(2)}
-                  cantidad={item.cantidad}
-                  ingredientes={item.ingredientes}
-                  onIncrement={() => handleQuantityChange(item, item.cantidad + 1)}
-                  onDecrement={() => handleQuantityChange(item, item.cantidad - 1)}
-                />
-              </div>
+              <CardPedido
+                key={item.customId}
+                id={item.producto_id}
+                name={item.nombre}
+                price={item.precio.toFixed(2)}
+                cantidad={item.cantidad}
+                ingredientes={item.ingredientes}
+                onIncrement={() => handleQuantityChange(item, item.cantidad + 1)}
+                onDecrement={() => handleQuantityChange(item, item.cantidad - 1)}
+              />
             ))}
           </div>
           <div>

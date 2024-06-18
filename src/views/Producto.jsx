@@ -12,7 +12,7 @@ import { ArrowBack } from "../assets/svg/ArrowBack";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
-import Counter from "../components/Counter"; // Asegúrate de que la ruta sea correcta
+import Counter from "../components/Counter";
 
 const ingredientPrices = {
   Tomate: 0.5,
@@ -106,7 +106,7 @@ export default function Producto({ addToOrder }) {
     <>
       <div className="h-dvh flex flex-col justify-between bg-white text-black">
         <Image
-          heigh={400}
+          height={400}
           alt={product.nombre}
           src={`../../src/assets/img/${productId}.jpg`}
           className="rounded-b-[10px] rounded-t-none"
@@ -121,7 +121,17 @@ export default function Producto({ addToOrder }) {
             </div>
             <div>
               <h3 className="font-bold text-xl">Alergenos</h3>
-              <p>{product.alergenos}</p>
+              <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
+                {product.alergenos && product.alergenos.split(',').map((alergenoId, index) => (
+                  <Image
+                    key={index}
+                    heigh={70}
+                    alt={alergenoId}
+                    src={`../../src/assets/img/${alergenoId.trim()}.png`}
+                    width={70}
+                  />
+                ))}
+              </div>
             </div>
             <Table aria-label="Example static collection table">
               <TableHeader>
@@ -151,7 +161,7 @@ export default function Producto({ addToOrder }) {
             className="w-full bg-orange-500 text-white"
             onClick={handleAddToOrder}
           >
-            Añadir al carrito por {product.precio}€
+            Añadir al carrito por {product.precio.toFixed(2)}€
           </Button>
         </div>
       </div>

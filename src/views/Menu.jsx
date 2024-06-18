@@ -33,22 +33,22 @@ function Menu({
   const handleAddToOrder = (item) => {
     const updatedQuantities = {
       ...productQuantities,
-      [item.customId]: (productQuantities[item.customId] || 0) + 1, // Usa customId en lugar de producto_id
+      [item.producto_id]: (productQuantities[item.producto_id] || 0) + 1,
     };
     setProductQuantities(updatedQuantities);
     const existingItem = order.find(
-      (orderItem) => orderItem.customId === item.customId // Usa customId en lugar de producto_id
+      (orderItem) => orderItem.customId === item.customId
     );
     if (existingItem) {
       setOrder(
         order.map((orderItem) =>
-          orderItem.customId === item.customId // Usa customId en lugar de producto_id
+          orderItem.customId === item.customId
             ? { ...orderItem, cantidad: orderItem.cantidad + 1 }
             : orderItem
         )
       );
     } else {
-      addToOrder({ ...item, cantidad: 1 });
+      addToOrder({ ...item, cantidad: 1, customId: `${item.producto_id}_${Date.now()}` });
     }
   };
 
