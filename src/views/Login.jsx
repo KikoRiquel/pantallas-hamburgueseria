@@ -76,7 +76,6 @@ const Login = ({ setToken }) => {
               </div>
             </form>
           </CardBody>
-          <CardFooter>FALTA MANEJAR EL ERROR</CardFooter>
         </Card>
       </div>
     </>
